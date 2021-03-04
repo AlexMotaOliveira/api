@@ -1,0 +1,15 @@
+{
+  "lancamentos": [
+    {
+      "id": 1,
+      "descricao": "pão na chapa",
+      "valor": -65.98,
+      "categoria": "Alimentação",
+      "criacao": 1614730980
+    },
+    {
+      "descricao": "pão na chapa 2",
+      "id": 2
+    }
+  ]
+}
