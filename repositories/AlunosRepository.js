@@ -6,21 +6,23 @@ class AlunosRepository extends MongoDbRepository {
 	super(db, 'alunos');
   }
 
-  async insertAluno() {
+  async insertAluno(body) {
 	// METODO PARA GERAR MATRICULA AQUI()
-	const resultado = await this.collection.insertOne(
-	  {
-		nome: "VARIAVEL NOME",
-		cpf: "123cpf",
-		email: "aluno@email.com",
-		matricula: "Que foi gerada",
-		endereco: "json/objeto de endereco"
-	  });
-	  console.log(
-		`${resultado.insertedCount} documents were inserted with the _id: ${resultado.insertedId}`,
-	  );
-	return resultado;
+	const resultado = await this.collection.insertOne(body);
+	return {
+    'linhas':resultado.insertedCount,
+    'id':resultado.insertedId,
+    'objetoCriado':resultado.ops
+  };
   }
+
+  async listAlunos(){
+    const resultado = await this.collection.list();
+    return {'status':'OK','resultado':resultado.toarray()}
+  }
+
+
 }
+
 
 module.exports = AlunosRepository;

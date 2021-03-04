@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
-const connectionString = 'mongodb://localhost:27017/teste';
+const connectionString = 'mongodb://localhost:27017/test';
 
 exports.token = async (req, h) => {
   const response = h.response();

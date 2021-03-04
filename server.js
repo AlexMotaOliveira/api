@@ -10,7 +10,7 @@ const MongoDbMiddleware = require('./middlewares/MongoDBMiddleware.js');
     host: 'localhost'
   });
 
-  await AutorizacaoMiddleware(server);
+  //await AutorizacaoMiddleware(server);
   await MongoDbMiddleware(server);
 
   rotas.forEach(rota => server.route(rota));
