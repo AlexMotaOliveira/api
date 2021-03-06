@@ -4,7 +4,7 @@ const AutorizacaoMiddleware = require('./middlewares/AutorizacaoMiddleware.js');
 const MongoDbMiddleware = require('./middlewares/MongoDBMiddleware.js');
 
 (async function() {
-
+  // TODO: Criar Retorno no servidor(console.log) para cada requisição feita
   const server = Hapi.server({
     port: 3000,
     host: 'localhost'

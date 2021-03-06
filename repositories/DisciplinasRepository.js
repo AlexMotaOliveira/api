@@ -2,13 +2,12 @@ const MongoDbRepository = require('./MongoDbRepository.js');
 
 // TODO: Criar buscar de matricula para poder cadastrar novos alunos sem repetir
 // TODO: Criar inserção de um aluno em um curso.
-class AlunosRepository extends MongoDbRepository {
+class DisciplinasRepository extends MongoDbRepository {
   constructor(db) {
-	super(db, 'alunos');
+	super(db, 'disciplinas');
   }
 
-  async insertAluno(body) {
-	// METODO PARA GERAR MATRICULA AQUI()
+  async insertDisciplina(body) {
 	const resultado = await this.collection.insertOne(body);
 	return {
     'linhas':resultado.insertedCount,
@@ -17,7 +16,7 @@ class AlunosRepository extends MongoDbRepository {
   };
   }
 
-  async listAlunos(){
+  async listDisciplinas(){
     const resultado = await this.collection.list();
     return {'status':'OK','resultado':resultado.toarray()}
   }
@@ -25,4 +24,4 @@ class AlunosRepository extends MongoDbRepository {
 
 }
 
-module.exports = AlunosRepository;
+module.exports = DisciplinasRepository;

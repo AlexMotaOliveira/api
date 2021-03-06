@@ -1,5 +1,6 @@
 const JwtPlugin = require('@hapi/jwt');
 
+
 module.exports = async (server) => {
   await server.register(JwtPlugin);
 

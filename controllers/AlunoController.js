@@ -11,16 +11,6 @@ exports.inserirAluno = async (req, h) => {
   return repoLancamentos.insert(lancamento);
 }
 
-exports.atualizarLancamento = async (req, h) => {
-  const repoLancamentos = new RestRepository(apiUrl, '/lancamentos');
-  return repoLancamentos.update(req.params.id, req.payload);
-}
-
-exports.apagarLancamento = async (req, h) => {
-  const repoLancamentos = new RestRepository(apiUrl, '/alunos');
-  return repoLancamentos.delete(req.params.id);
-}
-
 exports.insertAluno = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioAluno = new AlunosRepository(db);
@@ -42,6 +32,12 @@ exports.listAluno = async (req, h) => {
   return repositorio.list();
 }
 
+exports.getAluno = async (req, h) => {
+  const db = req.server.plugins['hapi-mongodb'].db;
+  const repositorio = new AlunosRepository(db);
+  return repositorio.getById(req.params.id);
+}
+
 exports.deleteAluno = async (req,h)=>{
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorio = new AlunosRepository(db);
@@ -49,4 +45,15 @@ exports.deleteAluno = async (req,h)=>{
   return repositorio.delete(req.params.id);
 }
 
+
+exports.updateAluno = async (req, h) => {
+  const db = req.server.plugins['hapi-mongodb'].db;
+  const repositorioAluno = new AlunosRepository(db);
+  const respostaInsert = await repositorioAluno.update(req.params.id,req.payload);
+
+  return {
+    'linhas_modificadas':respostaInsert.modifiedCount,
+    'objetoAluno':req.payload
+  }
+}
 
