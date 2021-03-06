@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 
-class RestRepository {
+class RestRepository {// PARA CONSULTAR OUTRA API
   /**
    * @param {string} apiUrl URL base da API
    * @param {string} resourcePath caminho do resource iniciando com '/'

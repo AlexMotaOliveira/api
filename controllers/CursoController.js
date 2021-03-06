@@ -14,9 +14,9 @@ exports.insertCurso = async (req, h) => {
   const respostaInsert = await repositorioCursos.insertCurso(req.payload);
   //const respostaAlunosCursos = await repoAlunosCursos.insert({'id_curso':respostaInsert.id,'id_aluno':'1'});
 
-  return {
+  return{
     'id_curso':respostaInsert.id,
-    'objetoCurso':respostaInsert.objetoCriado};
+    'objetoCurso':respostaInsert.objetoCriado}
 }
 
 exports.listCurso = async (req, h) => {
@@ -46,6 +46,8 @@ exports.updateCurso = async (req, h) => {
   return {
     'linhas_modificadas':respostaInsert.modifiedCount,
     'objetoCurso':req.payload
-  }
+  };
 }
+
+
 

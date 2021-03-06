@@ -1,15 +1,37 @@
 {
-  "lancamentos": [
+  "alunos": [
     {
       "id": 1,
-      "descricao": "pão na chapa",
-      "valor": -65.98,
-      "categoria": "Alimentação",
-      "criacao": 1614730980
-    },
-    {
-      "descricao": "pão na chapa 2",
-      "id": 2
+      "nome": "João Paulo",
+      "cpf": "12345678998",
+      "email": "email@email.com",
+      "matricula": 1614730980,
+      "endreco": {"rua":"","bairro":"..."},
+	    "notas":[
+		      {
+          "disciplina":ObjectId(''),
+            "nota": 10,
+          "tipoNota": "Nota_Prova1"
+          },
+          {
+            "disciplina":ObjectId(''),
+            "nota": 10,
+            "tipoNota": "Nota_Prova2"
+          },
+          {
+            "disciplina":ObjectId(''),
+            "nota": 10,
+            "tipoNota": "Nota_Prova3"
+          },
+          {
+            "disciplina":ObjectId(''),
+           "nota": 10,
+            "tipoNota": "Nota_Prova2"
+          }
+	  ]
     }
   ]
 }
+
+
+

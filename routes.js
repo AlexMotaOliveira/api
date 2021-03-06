@@ -9,6 +9,7 @@ const CursosController = require('./controllers/CursoController.js');
 const DisciplinasController = require('./controllers/DisciplinaController.js');
 const NotasController = require('./controllers/NotaController.js');
 // TODO:Configurar o status do retorno, 200,201...
+// TODO:Mudar os endpoins para o singular
 module.exports = [
   {
     method: 'POST',
@@ -114,6 +115,11 @@ module.exports = [
     method: 'PUT',
     path: '/api/v1/notas/{id}',
     handler: NotasController.updateNota
+  },
+  {
+    method:'POST',
+    path: '/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}',
+    handler: AlunosController.relacionarAlunoCurso
   },
   {
     method: [ 'GET', 'POST','DELETE','PUT' ],// TODO: Podemos retornar a lista de endpoits disponíveis
