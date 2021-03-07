@@ -11,7 +11,16 @@ exports.insertAluno = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioAluno = new AlunosRepository(db);
   const repoAlunosCursos = new MongoDbRepository(db, 'alunos_cursos');// TODO: Criar endpoint para relacionar
-  //Object.assign(req.payload,{'notas':[]});
+  let matricula=0;
+  let listaAlunos = await repositorioAluno.list();
+  matricula = listaAlunos.reduce((acumulador, aluno)=>{
+    debugger;
+    return acumulador = (parseInt(aluno.matricula)>acumulador) ? parseInt(aluno.matricula) : acumulador;
+  },0)+1;
+  debugger;
+  matricula = matricula<=1 ? parseInt(new Date().getFullYear().toString()+"0001") : matricula;
+
+  Object.assign(req.payload,{'matricula':matricula});
   const respostaInsert = await repositorioAluno.insertAluno(req.payload);
   //const respostaAlunosCursos = await repoAlunosCursos.insert({'id_curso':'1','id_aluno':respostaInsert.id});
 
@@ -74,4 +83,8 @@ exports.relacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matricu
 	'id_curso':respostaAlunosCursos.insertedCount,
 	'objetoCurso':respostaAlunosCursos.ops}
 
+}
+
+function gerarMatricula() {
+  return new Date().getFullYear().toString()+ (Math.floor(Math.random() * 1000) + 1);
 }
