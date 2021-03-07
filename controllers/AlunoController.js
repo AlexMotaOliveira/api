@@ -3,6 +3,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const MongoDbRepository = require('../repositories/MongoDbRepository.js');
 const AlunosRepository = require('../repositories/AlunosRepository.js');
 const CursosRepository = require('../repositories/CursosRepository.js');
+const DisciplinasRepository = require('../repositories/DisciplinasRepository.js');
 
 
 const apiUrl = 'http://localhost:3000';
@@ -68,23 +69,45 @@ exports.relacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matricu
   const repoAlunosCursos = new MongoDbRepository(db, 'alunos_cursos');
 
 
-
   let resultadoAluno = await repositorioAluno.get({"matricula":parseInt(req.params.matricula_aluno)});// verificar se é null ou não
   let resultadoCurso = await repositorioCursos.get({"codigo":req.params.codigo_curso});
 
   if(!resultadoAluno || !resultadoCurso ){
-	throw "Erro: curso ou matricula não localizada"
+    throw "Erro: curso ou matricula não localizada"
   }
-
-
   const respostaAlunosCursos = await repoAlunosCursos.insert({'id_curso':resultadoCurso._id,'id_aluno':resultadoAluno._id});
 
   return{
 	'id_curso':respostaAlunosCursos.insertedCount,
 	'objetoCurso':respostaAlunosCursos.ops}
-
 }
 
-function gerarMatricula() {
-  return new Date().getFullYear().toString()+ (Math.floor(Math.random() * 1000) + 1);
+exports.relacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}/disciplina/{codigo_disciplina}
+  const db = req.server.plugins['hapi-mongodb'].db;
+  const repositorioCursos = new CursosRepository(db);
+  const repositorioAluno = new AlunosRepository(db);
+  const repositorioDisciplina = new DisciplinasRepository(db);
+  const repoAlunosCursos = new MongoDbRepository(db, 'alunos_cursos');
+  const repoAlunosDisciplinas = new MongoDbRepository(db, 'alunos_disciplinas');
+
+
+  let resultadoAluno = await repositorioAluno.get({"matricula":parseInt(req.params.matricula_aluno)});
+  let resultadoCurso = await repositorioCursos.get({"codigo":req.params.codigo_curso});
+  let resultadoDisciplina = await repositorioDisciplina.get({'codigo':req.params.codigo_disciplina});// TODO: criar relação de Curso Disciplina
+
+  if(!resultadoAluno || !resultadoCurso || !resultadoDisciplina ){
+    throw "Erro: curso, matricula ou disciplina não localizada"
+  }
+
+  let resultadoAlunoCurso = await repoAlunosCursos.get({'id_aluno':resultadoAluno._id,'id_curso':resultadoCurso._id}) 
+
+  if(!resultadoAlunoCurso){
+    throw "Erro: Aluno não matriculado no curso"
+  }
+
+  const respostaAlunosDisciplinas = await repoAlunosDisciplinas.insert({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
+
+  return{
+	'id_curso':respostaAlunosDisciplinas.insertedCount,
+	'objetoCurso':respostaAlunosDisciplinas.ops}
 }

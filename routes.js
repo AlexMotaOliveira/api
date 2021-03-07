@@ -93,7 +93,7 @@ module.exports = [
   },
   {
     method: 'POST',
-    path: '/api/v1/notas',
+    path: '/api/v1/notas/alunos/{matricula}',
     handler: NotasController.insertNota
   },
   {
@@ -120,6 +120,11 @@ module.exports = [
     method:'POST',
     path: '/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}',
     handler: AlunosController.relacionarAlunoCurso
+  },
+  {
+    method:'POST',
+    path: '/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}/disciplina/{codigo_disciplina}',
+    handler: AlunosController.relacionarAlunoDisciplina
   },
   {
     method: [ 'GET', 'POST','DELETE','PUT' ],// TODO: Podemos retornar a lista de endpoits disponíveis
