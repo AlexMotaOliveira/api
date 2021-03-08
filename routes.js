@@ -127,6 +127,26 @@ module.exports = [
     handler: AlunosController.relacionarAlunoDisciplina
   },
   {
+    method: 'POST',
+    path: '/api/v1/curso/{codigo_curso}/disciplina/{codigo_disciplina}',
+    handler: CursosController.relacionarCursoDisciplina
+  },
+  {
+    method:'DELETE',
+    path: '/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}',
+    handler: AlunosController.desrelacionarAlunoCurso
+  },
+  {
+    method:'DELETE',
+    path: '/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}/disciplina/{codigo_disciplina}',
+    handler: AlunosController.desrelacionarAlunoDisciplina
+  },
+  {
+    method: 'DELETE',
+    path: '/api/v1/curso/{codigo_curso}/disciplina/{codigo_disciplina}',
+    handler: CursosController.desrelacionarCursoDisciplina
+  },
+  {
     method: [ 'GET', 'POST','DELETE','PUT' ],// TODO: Podemos retornar a lista de endpoits disponíveis
     path: '/{any*}',
     handler: (request, h) => {

@@ -9,10 +9,8 @@ const apiUrl = 'http://localhost:3000';
 exports.insertDisciplina = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioDisciplina = new DisciplinasRepository(db);
-  //const repoAlunosCursos = new MongoDbRepository(db, 'alunos_cursos');
 
   const respostaInsert = await repositorioDisciplina.insertDisciplina(req.payload);
-  //const respostaAlunosCursos = await repoAlunosCursos.insert({'id_curso':'1','id_aluno':respostaInsert.id});
 
   return {
     'id_disciplina':respostaInsert.id,
