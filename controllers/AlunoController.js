@@ -125,7 +125,6 @@ exports.relacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/{ma
 	'objetoCurso':respostaAlunosDisciplinas.ops}
 }
 
-// TODO: Lógica para não excluir relacionamento Aluno Curso caso tenha relacionamento Aluno Disciplina Curso
 exports.desrelacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioCursos = new CursosRepository(db);

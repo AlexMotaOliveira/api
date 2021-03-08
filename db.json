@@ -1,4 +1,4 @@
-{
+{// TODO: Criar a base do json
   "alunos": [
     {
       "id": 1,
@@ -32,6 +32,4 @@
     }
   ]
 }
-
-
 

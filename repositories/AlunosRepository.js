@@ -2,6 +2,7 @@ const MongoDbRepository = require('./MongoDbRepository.js');
 
 // TODO: Criar buscar de matricula para poder cadastrar novos alunos sem repetir
 // TODO: Criar inserção de um aluno em um curso.
+// TODO: Migrar as regras de negocios para o Repository
 class AlunosRepository extends MongoDbRepository {
   constructor(db) {
 	super(db, 'alunos');
@@ -21,7 +22,6 @@ class AlunosRepository extends MongoDbRepository {
     const resultado = await this.collection.list();
     return {'status':'OK','resultado':resultado.toarray()}
   }
-
 
 }
 
