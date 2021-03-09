@@ -8,6 +8,7 @@ const AlunosController = require('./controllers/AlunoController.js');
 const CursosController = require('./controllers/CursoController.js');
 const DisciplinasController = require('./controllers/DisciplinaController.js');
 const NotasController = require('./controllers/NotaController.js');
+const AlunoControllerPoliglota = require('./controllers/AlunoControllerPoliglota.js');
 // TODO:Configurar o status do retorno, 200,201...
 // TODO:Mudar os endpoins para o singular
 module.exports = [
@@ -145,6 +146,31 @@ module.exports = [
     method: 'DELETE',
     path: '/api/v1/curso/{codigo_curso}/disciplina/{codigo_disciplina}',
     handler: CursosController.desrelacionarCursoDisciplina
+  },
+  {
+    method: 'GET',
+    path: '/api/v2/alunos',
+    handler: AlunoControllerPoliglota.listarAluno
+  },
+  {
+    method: 'POST',
+    path: '/api/v2/alunos',
+    handler: AlunoControllerPoliglota.criarAluno
+  },
+  {
+    method: 'PUT',
+    path: '/api/v2/alunos/{matricula}',
+    handler: AlunoControllerPoliglota.alterarAluno
+  },
+  {
+    method: 'DELETE',
+    path: '/api/v2/alunos/{matricula}',
+    handler: AlunoControllerPoliglota.apagarAluno
+  },
+  {
+    method: 'GET',
+    path: '/api/v2/alunos/{matricula}',
+    handler: AlunoControllerPoliglota.buscarAluno
   },
   {
     method: [ 'GET', 'POST','DELETE','PUT' ],// TODO: Podemos retornar a lista de endpoits disponíveis

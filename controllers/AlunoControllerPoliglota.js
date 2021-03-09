@@ -18,7 +18,6 @@ exports.insertAluno = async (req, h) => {
     debugger;
     return acumulador = (parseInt(aluno.matricula)>acumulador) ? parseInt(aluno.matricula) : acumulador;
   },0)+1;
-  debugger;
   matricula = matricula<=1 ? parseInt(new Date().getFullYear().toString()+"0001") : matricula;
 
   Object.assign(req.payload,{'matricula':matricula});
@@ -176,7 +175,55 @@ exports.desrelacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/
   if(!resultadoAlunoDisciplina){
     throw "Erro: Relacionamento não existe"
   }
- 
+
 
   return await repoAlunosDisciplinas.delete(resultadoAlunoDisciplina._id.toString());
+}
+
+
+function obterConfig(req) {
+  return req.headers['x-persistence'] === 'rest'
+    ? 'http://localhost:3030'
+    : req.server.plugins['hapi-mongodb'].db;
+}
+// Verificar se a persistência veio certa!
+exports.listarAluno = async (req,h)=> {
+  const persistencia = req.headers['x-persistence'];
+  const AlunosRepository = require(`../repositories/${persistencia}/AlunosRepository.js`);
+  const repositorio = new AlunosRepository(obterConfig(req));
+  /// DESSE PONTO
+  return  repositorio.list();
+}
+
+exports.criarAluno = async (req,h)=> {
+  const persistencia = req.headers['x-persistence'];
+  const AlunosRepository = require(`../repositories/${persistencia}/AlunosRepository.js`);
+  const repositorio = new AlunosRepository(obterConfig(req));
+  /// DESSE PONTO
+  return  repositorio.criarAluno(req.payload);
+}
+
+exports.alterarAluno = async (req,h)=> {
+  const persistencia = req.headers['x-persistence'];
+  const AlunosRepository = require(`../repositories/${persistencia}/AlunosRepository.js`);
+  const repositorio = new AlunosRepository(obterConfig(req));
+  /// DESSE PONTO
+  return  repositorio.alterarAluno(req);
+}
+
+exports.apagarAluno = async (req,h)=> {
+  const persistencia = req.headers['x-persistence'];
+  const AlunosRepository = require(`../repositories/${persistencia}/AlunosRepository.js`);
+  const repositorio = new AlunosRepository(obterConfig(req));
+  /// DESSE PONTO
+  return  repositorio.apagarAluno(req);
+}
+
+exports.buscarAluno = async (req,h)=> {
+  const persistencia = req.headers['x-persistence'];
+  const AlunosRepository = require(`../repositories/${persistencia}/AlunosRepository.js`);
+  const repositorio = new AlunosRepository(obterConfig(req));
+  /// DESSE PONTO
+  let retorno =  repositorio.buscarAluno(req);
+  return retorno
 }
