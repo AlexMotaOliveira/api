@@ -1,4 +1,4 @@
-const RestRepository = require('../repositories/RestRepository.js');
+const RestRepository = require('../repositories/rest/RestRepository.js');
 const { MongoClient, ObjectId } = require('mongodb');
 const MongoDbRepository = require('../repositories/MongoDbRepository.js');
 const CursosRepository = require('../repositories/CursosRepository.js');

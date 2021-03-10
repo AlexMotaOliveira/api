@@ -1,4 +1,4 @@
-const RestRepository = require('../repositories/RestRepository.js');
+const RestRepository = require('../repositories/rest/RestRepository.js');
 const { MongoClient, ObjectId } = require('mongodb');
 const MongoDbRepository = require('../repositories/MongoDbRepository.js');
 const AlunosRepository = require('../repositories/mongo/AlunosRepository.js');
@@ -6,7 +6,7 @@ const CursosRepository = require('../repositories/CursosRepository.js');
 const DisciplinasRepository = require('../repositories/DisciplinasRepository.js');
 
 
-const apiUrl = 'http://localhost:3000';
+const apiUrl = 'http://e5a2e36c5d48.ngrok.io/api/v1';
 // TODO: Criar um verificar de "requisitos", para todos os endpoints de POST,PUT e DELETE
 exports.insertAluno = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
@@ -183,7 +183,7 @@ exports.desrelacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/
 
 function obterConfig(req) {
   return req.headers['x-persistence'] === 'rest'
-    ? 'http://localhost:3030'
+    ? apiUrl
     : req.server.plugins['hapi-mongodb'].db;
 }
 // Verificar se a persistência veio certa!
@@ -192,7 +192,7 @@ exports.listarAluno = async (req,h)=> {
   const AlunosRepository = require(`../repositories/${persistencia}/AlunosRepository.js`);
   const repositorio = new AlunosRepository(obterConfig(req));
   /// DESSE PONTO
-  return  repositorio.list();
+  return await repositorio.list();
 }
 
 exports.criarAluno = async (req,h)=> {
@@ -208,7 +208,7 @@ exports.alterarAluno = async (req,h)=> {
   const AlunosRepository = require(`../repositories/${persistencia}/AlunosRepository.js`);
   const repositorio = new AlunosRepository(obterConfig(req));
   /// DESSE PONTO
-  return  repositorio.alterarAluno(req);
+  return await  repositorio.alterarAluno(req);
 }
 
 exports.apagarAluno = async (req,h)=> {

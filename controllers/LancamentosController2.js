@@ -1,4 +1,4 @@
-const RestRepository = require('../repositories/RestRepository.js');
+const RestRepository = require('../repositories/rest/RestRepository.js');
 
 const apiUrl = 'http://localhost:3030';
 
