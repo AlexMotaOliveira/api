@@ -6,7 +6,7 @@ const CursosRepository = require('../repositories/CursosRepository.js');
 const DisciplinasRepository = require('../repositories/DisciplinasRepository.js');
 
 
-const apiUrl = 'http://localhost:8080/';
+const apiUrl = ' http://5a79a56898e6.ngrok.io';
 exports.insertAluno = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioAluno = new AlunosRepository(db);
