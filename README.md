@@ -3,8 +3,8 @@
 # Super API Node
 *Sistema de "RP" de escolas*
 
-## Projeto Java - Entrega em Grupo
-### Projeto de conclusão de Curso - Parte JAVA
+## Projeto NODE - Entrega em Grupo
+### Projeto de conclusão de Curso - Parte NODE
 * * * *
 
 *Enunciado: Os grupos deverão desenvolver um sistema que permita o Cadastro, Inclusão, Consulta e Exclusão de Alunos.*
@@ -24,7 +24,7 @@
 * * * *
 ### Modelo Conceitual:
 
-![img_1.png](./Diagrama entidades.png)
+![img_1.png](Diagrama entidades.png)
 
 * * * *
 ### Utilização do Projeto:
