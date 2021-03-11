@@ -10,7 +10,7 @@ const apiUrl = 'http://localhost:3000';
 exports.insertCurso = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioCursos = new CursosRepository(db);
-  
+
   const respostaInsert = await repositorioCursos.insertCurso(req.payload);
 
 
@@ -50,12 +50,12 @@ exports.updateCurso = async (req, h) => {
   };
 }
 
-exports.relacionarCursoDisciplina = async (req,h) =>{//localhost/api/v1/curso/{codigo_curso}/disciplina/{codigo_disciplina}
+exports.relacionarCursoDisciplina = async (req,h) =>{
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioCursos = new CursosRepository(db);
   const repositorioDisciplinas = new DisciplinasRepository(db);
   const repoDisciplinasCursos = new MongoDbRepository(db, 'disciplinas_cursos');
-  
+
 
   let respostaCurso = await repositorioCursos.get({'codigo':req.params.codigo_curso});
   let respostaDisciplina = await repositorioDisciplinas.get({'codigo':req.params.codigo_disciplina});
@@ -75,12 +75,12 @@ exports.relacionarCursoDisciplina = async (req,h) =>{//localhost/api/v1/curso/{c
   return{'status':'Cadastrado com sucesso!'}
 }
 
-exports.desrelacionarCursoDisciplina = async (req,h) =>{//localhost/api/v1/curso/{codigo_curso}/disciplina/{codigo_disciplina}
+exports.desrelacionarCursoDisciplina = async (req,h) =>{
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioCursos = new CursosRepository(db);
   const repositorioDisciplinas = new DisciplinasRepository(db);
   const repoDisciplinasCursos = new MongoDbRepository(db, 'disciplinas_cursos');
-  
+
 
   let respostaCurso = await repositorioCursos.get({'codigo':req.params.codigo_curso});
   let respostaDisciplina = await repositorioDisciplinas.get({'codigo':req.params.codigo_disciplina});

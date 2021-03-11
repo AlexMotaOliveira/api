@@ -24,7 +24,7 @@ exports.insertNota = async (req, h) => {
 
   const respostaNota = await repositorioNota.list({'aluno':respostaAluno._id});
 
-  
+
   if(respostaNota){
     respostaNota.forEach(nota => {
       if (nota.disciplina.equals(respostaDisciplina._id)  && nota.aluno.equals(respostaAluno._id) && nota.tipoNota === req.payload.tipoNota) {
@@ -58,7 +58,7 @@ exports.listNota = async (req, h) => {
     .catch((error)=> {
       console.log(error)
     });
-    resposta.push(await teste.json()); 
+    resposta.push(await teste.json());
   }
   return resposta;
 }
@@ -87,20 +87,20 @@ exports.updateNota = async (req, h) => {
   }
 }
 
-exports.verificarMedia = async (req,h)=> {// repostiroy: Disciplinas, Alunos_disciplinas
+exports.verificarMedia = async (req,h)=> {
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioNota = new NotasRepository(db);
   const repositorioAluno = new AlunosRepository(db);
-  const repositorioDisciplina = new DisciplinaRepository(db);// para pegar o nome das disciplinas
+  const repositorioDisciplina = new DisciplinaRepository(db);
   const repositorioCursos = new CursosRepository(db);
   const repoAlunosDisciplinas = new MongoDbRepository(db, 'alunos_disciplinas');
   const repoAlunosCurso = new MongoDbRepository(db, 'alunos_cursos');
-  //let respostaAlunosDisciplinas = [] ;
+ 
 
-  const respostaAluno = await repositorioAluno.get({'matricula':parseInt(req.params.matricula)});// TODO: colocar para verificar se veio vazio
+  const respostaAluno = await repositorioAluno.get({'matricula':parseInt(req.params.matricula)});
   const respostaAlunosCursos = await repoAlunosCurso.get({'id_aluno':respostaAluno._id});
   const respostaCurso = await repositorioCursos.get({'_id':respostaAlunosCursos.id_curso})
-  let respostaAlunosDisciplinas = await repoAlunosDisciplinas.list({'id_alunoCurso':respostaAlunosCursos._id});// Retornar as disciplias
+  let respostaAlunosDisciplinas = await repoAlunosDisciplinas.list({'id_alunoCurso':respostaAlunosCursos._id});
 
   const respostaNota = await repositorioNota.list({'aluno':respostaAluno._id});
   const listaDeDisciplinas = await repositorioDisciplina.list();
@@ -123,9 +123,9 @@ exports.verificarMedia = async (req,h)=> {// repostiroy: Disciplinas, Alunos_dis
         }
         return acumulador
       },[])
-    })    
+    })
     media = (vetorNotas.reduce((a,n)=>{return a+n.valorNota},0)/vetorNotas.length);
-    
+
     disciplinas.push({
       'nomeDisciplina': nomeDisciplina,
       'media': media,

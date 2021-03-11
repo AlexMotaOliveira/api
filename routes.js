@@ -4,7 +4,7 @@ const CursosController = require('./controllers/CursoController.js');
 const DisciplinasController = require('./controllers/DisciplinaController.js');
 const NotasController = require('./controllers/NotaController.js');
 const AlunoControllerPoliglota = require('./controllers/AlunoControllerPoliglota.js');
-// TODO:Configurar o status do retorno, 200,201...
+
 module.exports = [
   {
     method: 'POST',
@@ -172,7 +172,7 @@ module.exports = [
     handler: AlunoControllerPoliglota.buscarAluno
   },
   {
-    method: [ 'GET', 'POST','DELETE','PUT' ],// TODO: Podemos retornar a lista de endpoits disponíveis
+    method: [ 'GET', 'POST','DELETE','PUT' ],
     path: '/{any*}',
     handler: (request, h) => {
       return h.response({'mensagem':'Parece que o endpoint que você busca está em outro castelo!'}).code(404)

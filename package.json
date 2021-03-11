@@ -13,6 +13,8 @@
     "@hapi/hapi": "^20.1.0",
     "@hapi/jwt": "^2.0.1",
     "hapi-mongodb": "^9.0.2",
+    "hapi-swaggered": "^3.1.0",
+    "hapi-swaggered-ui": "^3.1.0",
     "json-server": "^0.16.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.4",

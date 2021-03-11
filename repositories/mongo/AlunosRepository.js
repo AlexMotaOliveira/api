@@ -1,14 +1,14 @@
 const MongoDbRepository = require('../MongoDbRepository.js');
 
 
-// TODO: Migrar as regras de negocios para o Repository
+
 class AlunosRepository extends MongoDbRepository {
   constructor(db) {
 	super(db, 'alunos');
   }
 
   async insertAluno(body) {
-	// METODO PARA GERAR MATRICULA AQUI()
+	
 	const resultado = await this.collection.insertOne(body);
 	return {
     'linhas':resultado.insertedCount,
@@ -41,7 +41,7 @@ class AlunosRepository extends MongoDbRepository {
 
   async alterarAluno(req) {
     let retornoALuno = await this.collection.findOne({'matricula':parseInt(req.params.matricula)});
-    const respostaUpdate = await this.update(retornoALuno._id.toString(),req.payload); 
+    const respostaUpdate = await this.update(retornoALuno._id.toString(),req.payload);
     if(!respostaUpdate){ return {"ERRO":"deu falha"}}
     return {
       'linhas_modificadas':respostaUpdate.modifiedCount,

@@ -11,37 +11,31 @@
 * * * *
 
 ### Tecnologias utilizadas:
-* Java 14
-* Maven
-* SpringBoot
-    * Spring Data JPA
-        * Hibernete
-        * Bean Validation
-    * Spring Web
-    * H2
-    * Springfox-swagger
-    * Spring DevTools
+* JavaScript
+* Node
+* MongoDB
+* Hapi
+* Fetch
 * Postman
-* IntelliJ
-* CodeTogether
+* VisualStudio
+* Liveshare
 * Ngrok
 
 * * * *
 ### Modelo Conceitual:
 
-![img_1.png](../gama-projeto-java/Diagrama entidades.png)
+![img_1.png](./Diagrama entidades.png)
 
 * * * *
 ### Utilização do Projeto:
 * Faça download do projeto:
-    * `git clone https://github.com/AlexMotaOliveira/gama-projeto-java.git`
+    * `git clone https://github.com/AlexMotaOliveira/api`
 * Importe na sua IDE
 * Inicie a aplicação.
-
+	* `node server.js`
 * * * *
 
 ### Links úteis após o inicio da API:
 
-* Banco de dados H2: http://localhost:8080/h2-console
-* Documentação Swagger: http://localhost:8080/swagger-ui.html
-* Teste no Postman: https://www.getpostman.com/collections/eb05aafcd53b8949836c
+* Teste no Postman: https://www.getpostman.com/collections/c1892bbcf3f9a7f2aed5
+* API de integração em JAVA: https://github.com/AlexMotaOliveira/gama-projeto-java
