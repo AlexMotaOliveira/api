@@ -1,0 +1,2 @@
+{"_id":{"$oid":"604996233abedde3a28afb2d"},"nome":"Alex Mota","cpf":"02900119065","email":"Alex@gama.com","endereco":{"cep":"03590170","logradouro":"Rua Irmão Nicolau","numero":"169","complemento":"13B","bairro":"artur alvim","cidade":"SAO PAULO","uf":"SP"},"matricula":20210001}
+{"_id":{"$oid":"604996613abedde3a28afb2e"},"nome":"Carlos Henrique","cpf":"63707444090","email":"Carlos@gama.com","endereco":{"cep":"03590172","logradouro":"Rua Domingos Ferreira","numero":"169","complemento":"13B","bairro":"artur alvim","cidade":"RECIFE","uf":"PE"},"matricula":20210002}

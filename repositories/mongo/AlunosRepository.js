@@ -26,7 +26,6 @@ class AlunosRepository extends MongoDbRepository {
     let matricula=0;
     let listaAlunos = await this.list();
     matricula = listaAlunos.reduce((acumulador, aluno)=>{
-      debugger;
       return acumulador = (parseInt(aluno.matricula)>acumulador) ? parseInt(aluno.matricula) : acumulador;
     },0)+1;
     matricula = matricula<=1 ? parseInt(new Date().getFullYear().toString()+"0001") : matricula;

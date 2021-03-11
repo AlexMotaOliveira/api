@@ -61,21 +61,18 @@ exports.relacionarCursoDisciplina = async (req,h) =>{//localhost/api/v1/curso/{c
   let respostaDisciplina = await repositorioDisciplinas.get({'codigo':req.params.codigo_disciplina});
 
   if (!respostaCurso|| !respostaDisciplina) {
-    throw "Erro: Curso ou disciplina não encontrada";
+    return h.response("Erro: Curso ou disciplina não encontrada").code(404);
   }
 
   let respostaCursoDisciplina = await repoDisciplinasCursos.get({'id_curso':respostaCurso._id,'id_disciplina':respostaDisciplina._id});
 
   if(respostaCursoDisciplina){
-    throw "Erro: Essa relação já existe"
+    return h.response("Erro: Essa relação já existe").code(404);
   }
 
   let respostaInsert = await repoDisciplinasCursos.insert({'id_curso':respostaCurso._id,'id_disciplina':respostaDisciplina._id});
 
-  return{
-    'id_curso':respostaInsert.id,
-    'objetoCurso':respostaInsert.objetoCriado
-  }
+  return{'status':'Cadastrado com sucesso!'}
 }
 
 exports.desrelacionarCursoDisciplina = async (req,h) =>{//localhost/api/v1/curso/{codigo_curso}/disciplina/{codigo_disciplina}
@@ -89,13 +86,13 @@ exports.desrelacionarCursoDisciplina = async (req,h) =>{//localhost/api/v1/curso
   let respostaDisciplina = await repositorioDisciplinas.get({'codigo':req.params.codigo_disciplina});
 
   if (!respostaCurso|| !respostaDisciplina) {
-    throw "Erro: Curso ou disciplina não encontrada";
+    return h.response("Erro: Curso ou disciplina não encontrada").code(404);
   }
 
   let respostaCursoDisciplina = await repoDisciplinasCursos.get({'id_curso':respostaCurso._id,'id_disciplina':respostaDisciplina._id});
 
   if(!respostaCursoDisciplina){
-    throw "Erro: Essa relação não existe"
+    return h.response("Erro: Essa relação não existe").code(404);
   }
 
 

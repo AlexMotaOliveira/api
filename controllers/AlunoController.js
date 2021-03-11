@@ -15,10 +15,8 @@ exports.insertAluno = async (req, h) => {
   let matricula=0;
   let listaAlunos = await repositorioAluno.list();
   matricula = listaAlunos.reduce((acumulador, aluno)=>{
-    debugger;
     return acumulador = (parseInt(aluno.matricula)>acumulador) ? parseInt(aluno.matricula) : acumulador;
   },0)+1;
-  debugger;
   matricula = matricula<=1 ? parseInt(new Date().getFullYear().toString()+"0001") : matricula;
 
   Object.assign(req.payload,{'matricula':matricula});
@@ -73,22 +71,21 @@ exports.relacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matricu
   let resultadoCurso = await repositorioCursos.get({"codigo":req.params.codigo_curso});
 
   if(!resultadoAluno || !resultadoCurso ){
-    throw "Erro: curso ou matricula não localizada"
+    return h.response("Erro: curso ou matricula não localizada").code(404);
+  
   }
 
   let respostaAlunosCursos = await repoAlunosCursos.get({'id_curso':resultadoCurso._id,'id_aluno':resultadoAluno._id});
 
   if(respostaAlunosCursos){
-    throw "Erro: Essa relação já existe"
+    return h.response("Erro: Essa relação já existe").code(404);
   }
 
   const respostaInsert= await repoAlunosCursos.insert({'id_curso':resultadoCurso._id,'id_aluno':resultadoAluno._id});
 
-  return{
-	'id_curso':respostaInsert.insertedCount,
-	'objetoCurso':respostaInsert.ops}
+  return{'status':'Cadastrado com sucesso!'}
 }
-// TODO: CORRIGIR TODOS OS THROWS PARA RETURN COM O HAPI HAPPY
+
 exports.relacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}/disciplina/{codigo_disciplina}
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioCursos = new CursosRepository(db);
@@ -121,9 +118,7 @@ exports.relacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/{ma
 
   const respostaAlunosDisciplinas = await repoAlunosDisciplinas.insert({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
 
-  return{
-	'id_curso':respostaAlunosDisciplinas.insertedCount,
-	'objetoCurso':respostaAlunosDisciplinas.ops}
+  return{'status':'Cadastrado com sucesso!'}
 }
 
 exports.desrelacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}

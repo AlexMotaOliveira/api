@@ -4,7 +4,8 @@ const fetch = require('node-fetch');
 const MongoDbRepository = require('../repositories/MongoDbRepository.js');
 const NotasRepository = require('../repositories/NotasRepository.js');
 const AlunosRepository = require('../repositories/AlunosRepository.js');
-const DisciplinaRepository = require('../repositories/DisciplinasRepository.js')
+const DisciplinaRepository = require('../repositories/DisciplinasRepository.js');
+const CursosRepository = require('../repositories/CursosRepository.js');
 
 const apiUrl = 'http://localhost:3000';
 
@@ -18,16 +19,16 @@ exports.insertNota = async (req, h) => {
   const respostaAluno = await repoAluno.get({'matricula':parseInt(req.params.matricula)});
 
   if(!respostaDisciplina || !respostaAluno ){
-    throw "Erro: Disciplina ou matricula não localizada"
+    return h.response("Erro: Disciplina ou matricula não localizada").code(404);
   }
 
   const respostaNota = await repositorioNota.list({'aluno':respostaAluno._id});
 
   
-  if(respostaNota){// Verificar com Gustavo esse throw
+  if(respostaNota){
     respostaNota.forEach(nota => {
       if (nota.disciplina.equals(respostaDisciplina._id)  && nota.aluno.equals(respostaAluno._id) && nota.tipoNota === req.payload.tipoNota) {
-        throw 'Erro : Essa nota já está cadastrada para esse(a) aluno(a)';// tratar erro
+        return h.response("Erro : Essa nota já está cadastrada para esse(a) aluno(a)").code(400);
       }
     });
   }
@@ -91,12 +92,14 @@ exports.verificarMedia = async (req,h)=> {// repostiroy: Disciplinas, Alunos_dis
   const repositorioNota = new NotasRepository(db);
   const repositorioAluno = new AlunosRepository(db);
   const repositorioDisciplina = new DisciplinaRepository(db);// para pegar o nome das disciplinas
+  const repositorioCursos = new CursosRepository(db);
   const repoAlunosDisciplinas = new MongoDbRepository(db, 'alunos_disciplinas');
   const repoAlunosCurso = new MongoDbRepository(db, 'alunos_cursos');
   //let respostaAlunosDisciplinas = [] ;
 
   const respostaAluno = await repositorioAluno.get({'matricula':parseInt(req.params.matricula)});// TODO: colocar para verificar se veio vazio
   const respostaAlunosCursos = await repoAlunosCurso.get({'id_aluno':respostaAluno._id});
+  const respostaCurso = await repositorioCursos.get({'_id':respostaAlunosCursos.id_curso})
   let respostaAlunosDisciplinas = await repoAlunosDisciplinas.list({'id_alunoCurso':respostaAlunosCursos._id});// Retornar as disciplias
 
   const respostaNota = await repositorioNota.list({'aluno':respostaAluno._id});
@@ -134,6 +137,7 @@ exports.verificarMedia = async (req,h)=> {// repostiroy: Disciplinas, Alunos_dis
   retorno = {
     'nome':respostaAluno.nome,
     'matricula':respostaAluno.matricula,
+    'curso':respostaCurso.curso,
     'disciplinas':disciplinas
   }
 

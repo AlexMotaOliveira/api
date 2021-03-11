@@ -1,8 +1,3 @@
-const LinguagemController = require('./controllers/LinguagemController.js');
-// Sem RestController
-// const LancamentosController = require('./controllers/LancamentosController.js');
-// Com RestController:
-const LancamentosController = require('./controllers/LancamentosController2.js');
 const AutorizacaoController = require('./controllers/AutorizacaoController.js');
 const AlunosController = require('./controllers/AlunoController.js');
 const CursosController = require('./controllers/CursoController.js');
@@ -10,7 +5,6 @@ const DisciplinasController = require('./controllers/DisciplinaController.js');
 const NotasController = require('./controllers/NotaController.js');
 const AlunoControllerPoliglota = require('./controllers/AlunoControllerPoliglota.js');
 // TODO:Configurar o status do retorno, 200,201...
-// TODO:Mudar os endpoins para o singular
 module.exports = [
   {
     method: 'POST',

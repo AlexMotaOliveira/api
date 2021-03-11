@@ -1,0 +1,4 @@
+{"_id":{"$oid":"6049972f3abedde3a28afb35"},"id_alunoCurso":{"$oid":"6049971c3abedde3a28afb33"},"id_disciplina":{"$oid":"604992074ab80ed4a51a2fe0"}}
+{"_id":{"$oid":"6049973a3abedde3a28afb36"},"id_alunoCurso":{"$oid":"6049971c3abedde3a28afb33"},"id_disciplina":{"$oid":"604992924ab80ed4a51a2fe2"}}
+{"_id":{"$oid":"604997473abedde3a28afb37"},"id_alunoCurso":{"$oid":"604997223abedde3a28afb34"},"id_disciplina":{"$oid":"604992074ab80ed4a51a2fe0"}}
+{"_id":{"$oid":"6049974a3abedde3a28afb38"},"id_alunoCurso":{"$oid":"604997223abedde3a28afb34"},"id_disciplina":{"$oid":"604992664ab80ed4a51a2fe1"}}

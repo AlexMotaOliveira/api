@@ -15,7 +15,6 @@ exports.insertAluno = async (req, h) => {
   let matricula=0;
   let listaAlunos = await repositorioAluno.list();
   matricula = listaAlunos.reduce((acumulador, aluno)=>{
-    debugger;
     return acumulador = (parseInt(aluno.matricula)>acumulador) ? parseInt(aluno.matricula) : acumulador;
   },0)+1;
   matricula = matricula<=1 ? parseInt(new Date().getFullYear().toString()+"0001") : matricula;
@@ -72,13 +71,13 @@ exports.relacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matricu
   let resultadoCurso = await repositorioCursos.get({"codigo":req.params.codigo_curso});
 
   if(!resultadoAluno || !resultadoCurso ){
-    throw "Erro: curso ou matricula não localizada"
+    return h.response("Erro: curso ou matricula não localizada").code(404);
   }
 
   let respostaAlunosCursos = await repoAlunosCursos.get({'id_curso':resultadoCurso._id,'id_aluno':resultadoAluno._id});
 
   if(respostaAlunosCursos){
-    throw "Erro: Essa relação já existe"
+    return h.response("Erro: Essa relação já existe").code(400);
   }
 
   const respostaInsert= await repoAlunosCursos.insert({'id_curso':resultadoCurso._id,'id_aluno':resultadoAluno._id});
@@ -102,19 +101,19 @@ exports.relacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/{ma
   let resultadoDisciplina = await repositorioDisciplina.get({'codigo':req.params.codigo_disciplina});// TODO: criar relação de Curso Disciplina
 
   if(!resultadoAluno || !resultadoCurso || !resultadoDisciplina ){
-    throw "Erro: curso, matricula ou disciplina não localizada"
+    return h.response("Erro: curso, matricula ou disciplina não localizada").code(404);
   }
 
   let resultadoAlunoCurso = await repoAlunosCursos.get({'id_aluno':resultadoAluno._id,'id_curso':resultadoCurso._id}) 
 
   if(!resultadoAlunoCurso){
-    throw "Erro: Aluno não matriculado no curso"
+    return h.response("Erro: Aluno não matriculado no curso").code(400);
   }
 
   let resultadoAlunoDisciplina = await repoAlunosDisciplinas.get({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
 
   if(!resultadoAlunoDisciplina){
-    throw "Erro: Relacionamento já existente"
+    return h.response("Erro: Relacionamento já existente").code(400);
   }
 
   const respostaAlunosDisciplinas = await repoAlunosDisciplinas.insert({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
@@ -135,13 +134,13 @@ exports.desrelacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matr
   let resultadoCurso = await repositorioCursos.get({"codigo":req.params.codigo_curso});
 
   if(!resultadoAluno || !resultadoCurso ){
-    throw "Erro: curso ou matricula não localizada"
+    return h.response("Erro: curso ou matricula não localizada").code(404);
   }
 
   let respostaAlunosCursos = await repoAlunosCursos.get({'id_curso':resultadoCurso._id,'id_aluno':resultadoAluno._id});
 
   if(!respostaAlunosCursos){
-    throw "Erro: Essa relação não existe"
+    return h.response("Erro: Essa relação não existe").code(400);
   } 
 
   return  await repoAlunosCursos.delete(respostaAlunosCursos._id.toString());
@@ -161,19 +160,19 @@ exports.desrelacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/
   let resultadoDisciplina = await repositorioDisciplina.get({'codigo':req.params.codigo_disciplina});// TODO: criar relação de Curso Disciplina
 
   if(!resultadoAluno || !resultadoCurso || !resultadoDisciplina ){
-    throw "Erro: curso, matricula ou disciplina não localizada"
+    return h.response("Erro: curso, matricula ou disciplina não localizada").code(404);
   }
 
   let resultadoAlunoCurso = await repoAlunosCursos.get({'id_aluno':resultadoAluno._id,'id_curso':resultadoCurso._id}) 
 
   if(!resultadoAlunoCurso){
-    throw "Erro: Aluno não matriculado no curso"
+    return h.response("Erro: Aluno não matriculado no curso").code(404);
   }
 
   let resultadoAlunoDisciplina = await repoAlunosDisciplinas.get({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
 
   if(!resultadoAlunoDisciplina){
-    throw "Erro: Relacionamento não existe"
+    return h.response("Erro: Relacionamento não existe").code(404);
   }
 
 

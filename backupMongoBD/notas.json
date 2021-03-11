@@ -1,0 +1,8 @@
+{"_id":{"$oid":"604996de3abedde3a28afb2f"},"valorNota":7,"tipoNota":"NOTA_PROVA_1","disciplina":{"$oid":"604992074ab80ed4a51a2fe0"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
+{"_id":{"$oid":"604996e53abedde3a28afb30"},"valorNota":5,"tipoNota":"NOTA_PROVA_2","disciplina":{"$oid":"604992074ab80ed4a51a2fe0"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
+{"_id":{"$oid":"604996eb3abedde3a28afb31"},"valorNota":9,"tipoNota":"NOTA_PROVA_3","disciplina":{"$oid":"604992074ab80ed4a51a2fe0"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
+{"_id":{"$oid":"604996f03abedde3a28afb32"},"valorNota":8,"tipoNota":"NOTA_PROVA_4","disciplina":{"$oid":"604992074ab80ed4a51a2fe0"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
+{"_id":{"$oid":"604997ad3abedde3a28afb39"},"valorNota":10,"tipoNota":"NOTA_PROVA_1","disciplina":{"$oid":"604992924ab80ed4a51a2fe2"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
+{"_id":{"$oid":"604997f03abedde3a28afb3a"},"valorNota":7,"tipoNota":"NOTA_PROVA_2","disciplina":{"$oid":"604992924ab80ed4a51a2fe2"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
+{"_id":{"$oid":"604998033abedde3a28afb3b"},"valorNota":2,"tipoNota":"NOTA_TRABALHO","disciplina":{"$oid":"604992924ab80ed4a51a2fe2"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
+{"_id":{"$oid":"6049980f3abedde3a28afb3c"},"valorNota":1,"tipoNota":"NOTA_APRESENTACAO","disciplina":{"$oid":"604992924ab80ed4a51a2fe2"},"aluno":{"$oid":"604996233abedde3a28afb2d"}}
