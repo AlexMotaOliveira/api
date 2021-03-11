@@ -14,8 +14,11 @@ const MongoDbMiddleware = require('./middlewares/MongoDBMiddleware.js');
   await MongoDbMiddleware(server);
 
   rotas.forEach(rota => server.route(rota));
-
+  
   await server.start();
   console.log('Nosso servidor está rodando e esperando requisições!', server.info.uri);
 
 })()
+
+
+

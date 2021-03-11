@@ -6,7 +6,7 @@ const CursosRepository = require('../repositories/CursosRepository.js');
 const DisciplinasRepository = require('../repositories/DisciplinasRepository.js');
 
 
-const apiUrl = 'http://e5a2e36c5d48.ngrok.io/api/v1';
+const apiUrl = 'http://4afd4cd08ea2.ngrok.io/api/v1';
 // TODO: Criar um verificar de "requisitos", para todos os endpoints de POST,PUT e DELETE
 exports.insertAluno = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
@@ -180,7 +180,7 @@ exports.desrelacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/
   return await repoAlunosDisciplinas.delete(resultadoAlunoDisciplina._id.toString());
 }
 
-
+// Incio da API V2
 function obterConfig(req) {
   return req.headers['x-persistence'] === 'rest'
     ? apiUrl

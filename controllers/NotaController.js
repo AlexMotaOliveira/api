@@ -1,8 +1,10 @@
 const RestRepository = require('../repositories/rest/RestRepository.js');
 const { MongoClient, ObjectId } = require('mongodb');
+const fetch = require('node-fetch');
 const MongoDbRepository = require('../repositories/MongoDbRepository.js');
 const NotasRepository = require('../repositories/NotasRepository.js');
-
+const AlunosRepository = require('../repositories/AlunosRepository.js');
+const DisciplinaRepository = require('../repositories/DisciplinasRepository.js')
 
 const apiUrl = 'http://localhost:3000';
 
@@ -24,7 +26,7 @@ exports.insertNota = async (req, h) => {
   
   if(respostaNota){// Verificar com Gustavo esse throw
     respostaNota.forEach(nota => {
-      if (nota.disciplina.equals(respostaDisciplina._id)  && nota.aluno.equals(respostaAluno._id)) {
+      if (nota.disciplina.equals(respostaDisciplina._id)  && nota.aluno.equals(respostaAluno._id) && nota.tipoNota === req.payload.tipoNota) {
         throw 'Erro : Essa nota já está cadastrada para esse(a) aluno(a)';// tratar erro
       }
     });
@@ -42,8 +44,22 @@ exports.insertNota = async (req, h) => {
 
 exports.listNota = async (req, h) => {
   const db = req.server.plugins['hapi-mongodb'].db;
-  const repositorio = new NotasRepository(db);
-  return repositorio.list();
+  const repositorioAluno = new AlunosRepository(db);
+  let listaDeAlunos = await repositorioAluno.list();
+  let resposta =[];
+  let teste;
+  for (let index = 0; index < listaDeAlunos.length; index++) {
+
+    teste= await   fetch(apiUrl+`/api/v1/notas/aluno/${listaDeAlunos[index].matricula}`)
+    .then((data)=> {
+      return data
+    })
+    .catch((error)=> {
+      console.log(error)
+    });
+    resposta.push(await teste.json()); 
+  }
+  return resposta;
 }
 
 exports.getNota = async (req, h) => {
@@ -69,3 +85,70 @@ exports.updateNota = async (req, h) => {
     'objetoNota':req.payload
   }
 }
+
+exports.verificarMedia = async (req,h)=> {// repostiroy: Disciplinas, Alunos_disciplinas
+  const db = req.server.plugins['hapi-mongodb'].db;
+  const repositorioNota = new NotasRepository(db);
+  const repositorioAluno = new AlunosRepository(db);
+  const repositorioDisciplina = new DisciplinaRepository(db);// para pegar o nome das disciplinas
+  const repoAlunosDisciplinas = new MongoDbRepository(db, 'alunos_disciplinas');
+  const repoAlunosCurso = new MongoDbRepository(db, 'alunos_cursos');
+  //let respostaAlunosDisciplinas = [] ;
+
+  const respostaAluno = await repositorioAluno.get({'matricula':parseInt(req.params.matricula)});// TODO: colocar para verificar se veio vazio
+  const respostaAlunosCursos = await repoAlunosCurso.get({'id_aluno':respostaAluno._id});
+  let respostaAlunosDisciplinas = await repoAlunosDisciplinas.list({'id_alunoCurso':respostaAlunosCursos._id});// Retornar as disciplias
+
+  const respostaNota = await repositorioNota.list({'aluno':respostaAluno._id});
+  const listaDeDisciplinas = await repositorioDisciplina.list();
+
+  let retorno ={};
+
+  let disciplinas=[];
+
+  respostaAlunosDisciplinas.forEach(disciplina => {
+    let nomeDisciplina;
+    let vetorNotas;
+    let media;
+    listaDeDisciplinas.forEach(nomes=>{
+      if(nomes._id.equals(disciplina.id_disciplina)){
+        nomeDisciplina = nomes.disciplina;
+      }
+      vetorNotas=respostaNota.reduce((acumulador,nota)=>{
+        if (nota.disciplina.equals(disciplina.id_disciplina)) {
+          acumulador.push({'tipoNota':nota.tipoNota,'valorNota':nota.valorNota});
+        }
+        return acumulador
+      },[])
+    })    
+    media = (vetorNotas.reduce((a,n)=>{return a+n.valorNota},0)/vetorNotas.length);
+    
+    disciplinas.push({
+      'nomeDisciplina': nomeDisciplina,
+      'media': media,
+      'status': media>=6 ? 'Aprovado' : 'Reprovado',
+      'notas':vetorNotas})
+  });
+
+
+  retorno = {
+    'nome':respostaAluno.nome,
+    'matricula':respostaAluno.matricula,
+    'disciplinas':disciplinas
+  }
+
+  return retorno;
+}
+
+
+
+async function buscarNotaAluno(matricula) {
+  fetch(apiUrl+`/api/v1/notas/aluno/${matricula}`)
+    .then((data)=> {
+      return data
+    })
+    .catch((error)=> {
+      console.log(error)
+    });
+}
+

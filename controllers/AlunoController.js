@@ -88,7 +88,7 @@ exports.relacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matricu
 	'id_curso':respostaInsert.insertedCount,
 	'objetoCurso':respostaInsert.ops}
 }
-
+// TODO: CORRIGIR TODOS OS THROWS PARA RETURN COM O HAPI HAPPY
 exports.relacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}/disciplina/{codigo_disciplina}
   const db = req.server.plugins['hapi-mongodb'].db;
   const repositorioCursos = new CursosRepository(db);
@@ -103,19 +103,20 @@ exports.relacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/{ma
   let resultadoDisciplina = await repositorioDisciplina.get({'codigo':req.params.codigo_disciplina});// TODO: criar relação de Curso Disciplina
 
   if(!resultadoAluno || !resultadoCurso || !resultadoDisciplina ){
-    throw "Erro: curso, matricula ou disciplina não localizada"
+    
+    return h.response("Erro: curso, matricula ou disciplina não localizada").code(404);
   }
 
   let resultadoAlunoCurso = await repoAlunosCursos.get({'id_aluno':resultadoAluno._id,'id_curso':resultadoCurso._id}) 
 
   if(!resultadoAlunoCurso){
-    throw "Erro: Aluno não matriculado no curso"
+    return h.response("Erro: Aluno não matriculado no curso").code(404);
   }
 
   let resultadoAlunoDisciplina = await repoAlunosDisciplinas.get({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
 
-  if(!resultadoAlunoDisciplina){
-    throw "Erro: Relacionamento já existente"
+  if(resultadoAlunoDisciplina){
+    return h.response("Erro: Relacionamento já existente").code(500);
   }
 
   const respostaAlunosDisciplinas = await repoAlunosDisciplinas.insert({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
@@ -136,13 +137,13 @@ exports.desrelacionarAlunoCurso = async (req,h)=>{//localhost/api/v1/aluno/{matr
   let resultadoCurso = await repositorioCursos.get({"codigo":req.params.codigo_curso});
 
   if(!resultadoAluno || !resultadoCurso ){
-    throw "Erro: curso ou matricula não localizada"
+    return h.response("Erro: curso ou matricula não localizada").code(404);
   }
 
   let respostaAlunosCursos = await repoAlunosCursos.get({'id_curso':resultadoCurso._id,'id_aluno':resultadoAluno._id});
 
   if(!respostaAlunosCursos){
-    throw "Erro: Essa relação não existe"
+    return h.response("Erro: Essa relação não existe").code(404);
   } 
 
   return  await repoAlunosCursos.delete(respostaAlunosCursos._id.toString());
@@ -162,21 +163,20 @@ exports.desrelacionarAlunoDisciplina = async (req,h)=>{//localhost/api/v1/aluno/
   let resultadoDisciplina = await repositorioDisciplina.get({'codigo':req.params.codigo_disciplina});// TODO: criar relação de Curso Disciplina
 
   if(!resultadoAluno || !resultadoCurso || !resultadoDisciplina ){
-    throw "Erro: curso, matricula ou disciplina não localizada"
+    return h.response("Erro: curso, matricula ou disciplina não localizada").code(404);
   }
 
   let resultadoAlunoCurso = await repoAlunosCursos.get({'id_aluno':resultadoAluno._id,'id_curso':resultadoCurso._id}) 
 
   if(!resultadoAlunoCurso){
-    throw "Erro: Aluno não matriculado no curso"
+    return h.response("Erro: Aluno não matriculado no curso").code(404);
   }
 
   let resultadoAlunoDisciplina = await repoAlunosDisciplinas.get({'id_alunoCurso':resultadoAlunoCurso._id,'id_disciplina':resultadoDisciplina._id});
 
   if(!resultadoAlunoDisciplina){
-    throw "Erro: Relacionamento não existe"
+    return h.response("Erro: Relacionamento não existe").code(404);
   }
  
-
   return await repoAlunosDisciplinas.delete(resultadoAlunoDisciplina._id.toString());
 }

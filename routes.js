@@ -118,6 +118,11 @@ module.exports = [
     handler: NotasController.updateNota
   },
   {
+    method: 'GET',
+    path: '/api/v1/notas/aluno/{matricula}',
+    handler: NotasController.verificarMedia
+  },
+  {
     method:'POST',
     path: '/api/v1/aluno/{matricula_aluno}/curso/{codigo_curso}',
     handler: AlunosController.relacionarAlunoCurso
